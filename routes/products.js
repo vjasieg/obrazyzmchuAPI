@@ -3,13 +3,37 @@ var router = express.Router();
 const productModel = require("../models/product");
 
 router.get('/get', function(req, res, next) {
-  res.send(req.params.id);
+  productModel.find({}, (err, products) => {
+    if(!err) {
+      var commentsMap = {};
+      products.forEach((productModel) => {
+        commentsMap[productModel._id] = productModel;
+      });
+      res.send(commentsMap);
+      res.status(200);
+    }else {
+      res.status(500);
+    }
+  });
 });
 
-
-
-
 router.get('/get/:id', function(req, res, next) {
+  productModel.findById({"_id": req.params.id}).exec().then(product => {
+    res.status(200).json({
+      "title": product.title,
+      "desc": product.desc,
+      "price": product.price,
+      "time": product.time,
+      "views": product.views,
+      "pics": product.pics
+    });
+  }).catch(err => {
+    if(err) {
+      res.status(500).json({
+        "err": err
+      });
+    }
+  });
 });
 
 
