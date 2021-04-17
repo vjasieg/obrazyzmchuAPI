@@ -5,7 +5,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
-var productsRouter = require('./routes/products');
+var productsRouter = require('./routes/products/products');
+var productViewsRouter = require('./routes/products/views');
 var app = express();
 
 //connecting to db
@@ -24,8 +25,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 app.use('/', indexRouter);
 app.use('/products', productsRouter);
+app.use('/products/views', productViewsRouter)
 
 
 module.exports = app;
