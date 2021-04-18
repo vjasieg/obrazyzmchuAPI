@@ -13,7 +13,7 @@ var productViewsRouter = require('./routes/products/views');
 var cors = require("cors");
 var app = express();
 
-//connecting to db
+//connecting to db.
 mongoose.connect(process.env.DBLINK, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
