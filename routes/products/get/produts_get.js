@@ -5,12 +5,7 @@ const productModel = require("../../../models/product");
 router.get('', function(req, res, next) {
     productModel.find({}, (err, products) => {
         if(!err) {
-            var commentsMap = {};
-            products.forEach((productModel) => {
-                commentsMap[productModel._id] = productModel;
-            });
-            res.send(commentsMap);
-            res.status(200);
+            res.status(200).json(products)
         }else {
             res.status(500);
         }
