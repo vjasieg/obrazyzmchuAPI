@@ -11,7 +11,7 @@ var productsGetRouter = require('./routes/products/get/produts_get');
 var productsPostRouter = require('./routes/products/post/products_post');
 var productViewsRouter = require('./routes/products/views');
 var productPicsRouter = require('./routes/products/pics/pics');
-
+var categoriesRouter = require('./routes/products/categories/categories');
 
 var cors = require("cors");
 var app = express();
@@ -41,6 +41,7 @@ app.use('/products/get', productsGetRouter);
 app.use('/products/post', productsPostRouter);
 app.use('/products/views', productViewsRouter)
 app.use('/products/pics', productPicsRouter)
+app.use('/categories', categoriesRouter)
 
 
 module.exports = app;
