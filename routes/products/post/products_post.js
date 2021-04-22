@@ -29,9 +29,6 @@ router.post('', (req, res, next) => {
 
       req.files.file.forEach((file, index) => {
         file.mv('./static/files/' + file.name, function(err) {
-          if (err) {
-            return res.status(500).send(err);
-          }
           const pic = new productPicModel({
             "path": "/files/" + file.name,
             "productID": product.id,
