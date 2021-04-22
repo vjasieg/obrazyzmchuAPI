@@ -10,7 +10,7 @@ router.get('', (req, res, next) => {
 router.post('/add', (req, res, next) => {
 
     if(!(req.body.secret === process.env.PASSWORD)) {
-        res.status(401).json({"result": "podaj dobry secret"})
+        res.status(401).json({"result": "unauthorized"})
         return next()
     }
 
@@ -27,7 +27,7 @@ router.post('/add', (req, res, next) => {
 router.delete('/remove', (req, res, next) => {
 
     if(!(req.body.secret === process.env.PASSWORD)) {
-        res.status(401).json({"result": "podaj dobry secret"})
+        res.status(401).json({"result": "unauthorized"})
         return next()
     }
 

@@ -14,7 +14,7 @@ router.get('/get/:id/:sort', (req, res, next) => {
 
 router.post('/order/change/:id', (req, res, next) => {
     if(!(req.body.secret === process.env.PASSWORD)) {
-        res.status(401).json({"result": "podaj dobry secret"})
+        res.status(401).json({"result": "unauthorized"})
         return next()
     }
     console.log(req.params.id)

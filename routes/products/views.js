@@ -12,7 +12,7 @@ const rateLimit = limit({
 router.post('/add/:id', rateLimit, function(req, res, next) {
 
     if(!(req.body.secret === process.env.PASSWORD)) {
-        res.status(401).json({"result": "podaj dobry secret"})
+        res.status(401).json({"result": "unauthorized"})
         return next()
     }
 
