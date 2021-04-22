@@ -32,8 +32,7 @@ router.post('', (req, res, next) => {
 
   var product;
 
-  if(Object.keys(req.files).length === 1) {
-    console.log('asdsad')
+  if(req.files.file.length === undefined) {
     file = req.files.file
     product = new productModel({
         title: req.body.title,
@@ -43,7 +42,6 @@ router.post('', (req, res, next) => {
         time: req.body.time,
         pics: "/static/" + file.name
     });
-
     upload(file, product, 0)
 
   }else {
