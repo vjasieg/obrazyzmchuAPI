@@ -19,15 +19,18 @@ function upload(file, product, order) {
 
 router.post('', (req, res, next) => {
   if(!(req.body.secret === process.env.PASSWORD)) {
-    return res.status(401).json({"result": "unauthorized"});
+    res.status(401).json({"result": "unauthorized"});
+    return next()
   }
 
   if(!categories.categories.includes(req.body.category)) {
-    return res.status(400).json({"result": "nie ma takiej kategorii" + "(dostepne: " + categories.categories + ")"})
+    res.status(400).json({"result": "nie ma takiej kategorii" + "(dostepne: " + categories.categories + ")"})
+    return next()
   }
 
   if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).json({"result": "brak pliku"});
+    res.status(400).json({"result": "brak pliku"});
+    return next()
   }
 
   var product;

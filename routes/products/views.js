@@ -10,9 +10,12 @@ const rateLimit = limit({
 });
 
 router.post('/add/:id', rateLimit, function(req, res, next) {
+
     if(!(req.body.secret === process.env.PASSWORD)) {
-        return res.status(401).json({"result": "podaj dobry secret"})
+        res.status(401).json({"result": "podaj dobry secret"})
+        return next()
     }
+
     productModel.findById({"_id": req.params.id}).exec().then(product => {
         product.views = product.views + 1;
         product.save().then(r => {
