@@ -4,57 +4,77 @@ const productModel = require("../../../models/product");
 const categories = require("../../../util/json/categories.json");
 const productPicModel = require("../../../models/productpic");
 
+function upload(file, product, order) {
+  file.mv('./static/files/' + file.name, function(err) {
+    const pic = new productPicModel({
+      "path": "/files/" + file.name,
+      "productID": product.id,
+      "order": order
+    });
+    pic.save().then().catch(err => {
+      return res.status(500).send(err);
+    })
+  });
+}
 
 router.post('', (req, res, next) => {
-  if(req.body.secret === process.env.PASSWORD) {
-    if(categories.categories.includes(req.body.category)) {
+  if(!(req.body.secret === process.env.PASSWORD)) {
+    return res.status(401).json({"result": "unauthorized"});
+  }
 
-      if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(400).json({"result": "brak pliku"});
-      }
+  if(!categories.categories.includes(req.body.category)) {
+    return res.status(400).json({"result": "nie ma takiej kategorii" + "(dostepne: " + categories.categories + ")"})
+  }
 
-      var filelist = [];
-      req.files.file.forEach((file, index) => {
-        filelist.push("/static/" + file.name)
-      })
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).json({"result": "brak pliku"});
+  }
 
-      const product = new productModel({
+  var product;
+
+  if(Object.keys(req.files).length === 1) {
+    console.log('asdsad')
+    file = req.files.file
+    product = new productModel({
         title: req.body.title,
         desc: req.body.desc,
         category: req.body.category,
         price: req.body.price,
         time: req.body.time,
-        pics: filelist
-      });
+        pics: "/static/" + file.name
+    });
 
-      req.files.file.forEach((file, index) => {
-        file.mv('./static/files/' + file.name, function(err) {
-          const pic = new productPicModel({
-            "path": "/files/" + file.name,
-            "productID": product.id,
-            "order": index
-          });
-          pic.save().then().catch(err => {
-            res.status(500).send(err);
-          })
-        });
-      })
+    upload(file, product, 0)
 
-      product.save().then(result => {
-        return res.status(200).json({
-          "result": "Dodano produkt.",
-          "id": product.id
-        });
-      }).catch(err => {
-        //res.status(500).send(err);
-      })
-
-    }else {
-      res.status(400).json({"result": "nie ma takiej kategorii" + "(dostepne: " + categories.categories + ")"})
-    }
   }else {
-    res.status(401).json({"result": "unauthorized"});
+    var filelist = [];
+    req.files.file.forEach((file, index) => {
+      filelist.push("/static/" + file.name)
+    })
+
+    product = new productModel({
+      title: req.body.title,
+      desc: req.body.desc,
+      category: req.body.category,
+      price: req.body.price,
+      time: req.body.time,
+      pics: filelist
+    });
+
+    req.files.file.forEach((file, index) => {
+      upload(file, product, index)
+    })
   }
+
+
+  product.save().then(result => {
+    return res.status(200).json({
+      "result": "Dodano produkt.",
+      "id": product.id
+    });
+  }).catch(err => {
+    //res.status(500).send(err);
+  })
 });
 
 
