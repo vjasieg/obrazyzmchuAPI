@@ -3,11 +3,13 @@ var router = express.Router();
 const productModel = require("../../../models/product");
 const categories = require("../../../util/json/categories.json");
 const productPicModel = require("../../../models/productpic");
+const mongoose = require("mongoose");
 
-function upload(file, product, order) {
-  file.mv('./static/files/' + file.name, function(err) {
+function upload(file, product, order, id) {
+  file.mv('./static/files/' + id + ".png", function(err) {
     const pic = new productPicModel({
-      "path": "/files/" + file.name,
+      "_id": id,
+      "path": "/files/" + id + ".png",
       "productID": product.id,
       "order": order
     });
@@ -36,6 +38,7 @@ router.post('', (req, res, next) => {
   var product;
 
   if(req.files.file.length === undefined) {
+    var id = mongoose.Types.ObjectId();
     file = req.files.file
     product = new productModel({
         title: req.body.title,
@@ -43,14 +46,21 @@ router.post('', (req, res, next) => {
         category: req.body.category,
         price: req.body.price,
         time: req.body.time,
-        pics: "/static/" + file.name
+        pics: "/files/" + id + ".png"
     });
-    upload(file, product, 0)
+    upload(file, product, 0, id)
 
   }else {
     var filelist = [];
+    var objectIds = [];
+
     req.files.file.forEach((file, index) => {
-      filelist.push("/static/" + file.name)
+      objectIds.push(mongoose.Types.ObjectId());
+    })
+
+
+    req.files.file.forEach((file, index) => {
+      filelist.push("/files/" + objectIds[index] + ".png")
     })
 
     product = new productModel({
@@ -63,7 +73,7 @@ router.post('', (req, res, next) => {
     });
 
     req.files.file.forEach((file, index) => {
-      upload(file, product, index)
+      upload(file, product, index, objectIds[index])
     })
   }
 
@@ -71,7 +81,8 @@ router.post('', (req, res, next) => {
   product.save().then(result => {
     return res.status(200).json({
       "result": "Dodano produkt.",
-      "id": product.id
+      "product_id": product.id,
+      "pic_id": id || objectIds
     });
   }).catch(err => {
     //res.status(500).send(err);
