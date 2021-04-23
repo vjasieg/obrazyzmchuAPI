@@ -13,6 +13,7 @@ var productViewsRouter = require('./routes/products/views');
 var productsDeleteRouter = require('./routes/products/delete/products_delete');
 var productPicsRouter = require('./routes/products/pics/pics');
 var picsDeleteRouter = require('./routes/products/pics/delete/pics_delete');
+var picsPostRouter = require('./routes/products/pics/post/pics_post');
 var categoriesRouter = require('./routes/products/categories/categories');
 
 var cors = require("cors");
@@ -44,6 +45,7 @@ app.use('/products/post', productsPostRouter);
 app.use('/products/delete', productsDeleteRouter);
 app.use('/products/views', productViewsRouter);
 app.use('/products/pics', productPicsRouter);
+app.use('/products/pics/post', picsPostRouter);
 app.use('/products/pics/delete', picsDeleteRouter);
 app.use('/categories', categoriesRouter);
 
