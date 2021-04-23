@@ -10,6 +10,7 @@ const fileUpload = require('express-fileupload');
 var productsGetRouter = require('./routes/products/get/produts_get');
 var productsPostRouter = require('./routes/products/post/products_post');
 var productViewsRouter = require('./routes/products/views');
+var productsDeleteRouter = require('./routes/products/delete/products_delete');
 var productPicsRouter = require('./routes/products/pics/pics');
 var categoriesRouter = require('./routes/products/categories/categories');
 
@@ -41,6 +42,7 @@ app.use('/products/get', productsGetRouter);
 app.use('/products/post', productsPostRouter);
 app.use('/products/views', productViewsRouter)
 app.use('/products/pics', productPicsRouter)
+app.use('/products/delete', productsDeleteRouter)
 app.use('/categories', categoriesRouter)
 
 
