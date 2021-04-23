@@ -12,6 +12,7 @@ var productsPostRouter = require('./routes/products/post/products_post');
 var productViewsRouter = require('./routes/products/views');
 var productsDeleteRouter = require('./routes/products/delete/products_delete');
 var productPicsRouter = require('./routes/products/pics/pics');
+var picsDeleteRouter = require('./routes/products/pics/delete/pics_delete');
 var categoriesRouter = require('./routes/products/categories/categories');
 
 var cors = require("cors");
@@ -40,10 +41,11 @@ app.use(express.static(path.join(__dirname, 'static')));
 app.use('/', indexRouter);
 app.use('/products/get', productsGetRouter);
 app.use('/products/post', productsPostRouter);
-app.use('/products/views', productViewsRouter)
-app.use('/products/pics', productPicsRouter)
-app.use('/products/delete', productsDeleteRouter)
-app.use('/categories', categoriesRouter)
+app.use('/products/delete', productsDeleteRouter);
+app.use('/products/views', productViewsRouter);
+app.use('/products/pics', productPicsRouter);
+app.use('/products/pics/delete', picsDeleteRouter);
+app.use('/categories', categoriesRouter);
 
 
 module.exports = app;
