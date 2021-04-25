@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const productModel = require("../../../models/product");
 const categories = require("../../../util/json/categories.json");
+const filters = require("../../../util/json/filters.json");
+const fs = require("fs");
 const productPicModel = require("../../../models/productpic");
 const mongoose = require("mongoose");
 
@@ -30,6 +32,14 @@ router.post('', (req, res, next) => {
     return next()
   }
 
+  var filter = filters.filters;
+
+  if(!(filter.size.includes(req.body.size)) || !(filter.color.includes(req.body.color)) || !(filter.pattern.includes(req.body.pattern))) {
+    res.status(400).json({"result": "sprawdz poprawnosc filtrów" + " (dostepne: " + filter.size + ", " + filter.color + ", " + filter.pattern + ")"})
+    return next()
+  }
+
+
   if (!req.files || Object.keys(req.files).length === 0) {
     res.status(400).json({"result": "brak pliku"});
     return next()
@@ -46,10 +56,12 @@ router.post('', (req, res, next) => {
         category: req.body.category,
         price: req.body.price,
         time: req.body.time,
+        size: req.body.size,
+        color: req.body.color,
+        pattern: req.body.pattern,
         pics: "/files/" + id + ".png"
     });
     upload(file, product, 0, id)
-
   }else {
     var filelist = [];
     var objectIds = [];
@@ -69,6 +81,9 @@ router.post('', (req, res, next) => {
       category: req.body.category,
       price: req.body.price,
       time: req.body.time,
+      size: req.body.size,
+      color: req.body.color,
+      pattern: req.body.pattern,
       pics: filelist
     });
 

@@ -7,7 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 const fileUpload = require('express-fileupload');
 
-var productsGetRouter = require('./routes/products/get/produts_get');
+var productsGetRouter = require('./routes/products/get/products_get');
 var productsPostRouter = require('./routes/products/post/products_post');
 var productViewsRouter = require('./routes/products/views');
 var productsDeleteRouter = require('./routes/products/delete/products_delete');
