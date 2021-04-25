@@ -16,6 +16,9 @@ var picsDeleteRouter = require('./routes/products/pics/delete/pics_delete');
 var picsPostRouter = require('./routes/products/pics/post/pics_post');
 var categoriesRouter = require('./routes/products/categories/categories');
 
+var orderPostRouter = require('./routes/orders/post/order_post');
+
+
 var cors = require("cors");
 var app = express();
 
@@ -48,6 +51,7 @@ app.use('/products/pics', productPicsRouter);
 app.use('/products/pics/post', picsPostRouter);
 app.use('/products/pics/delete', picsDeleteRouter);
 app.use('/categories', categoriesRouter);
+app.use('/order/post', orderPostRouter);
 
 
 module.exports = app;
