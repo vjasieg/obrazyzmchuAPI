@@ -42,14 +42,53 @@ router.get('/id/:id', function(req, res, next) {
 });
 
 router.get('/filters', function(req, res, next) {
-    var response = {}
     var size, pattern, color, category;
+    (req.query.category === undefined) ? category = 'null' : category = req.query.category;
+    (req.query.size === undefined) ? size = 'null' : size = req.query.size;
+    (req.query.color === undefined) ? color = 'null' : color = req.query.color;
+    (req.query.pattern === undefined) ? pattern = 'null' : pattern = req.query.pattern;
 
-    (req.query.category === undefined) ? category = { $regex: /./} : category = req.body.category;
-    (req.query.size === undefined) ? size = { $regex: /./} : size = req.body.size;
-    (req.query.color === undefined) ? color = { $regex: /./} : color = req.body.color;
-    (req.query.pattern === undefined) ? pattern = { $regex: /./} : pattern = req.body.pattern;
-    productModel.find({"size": size, "color": color, "pattern": pattern, "category": category}).exec().then(product => {
+    var obj = [
+        {$or: []},
+        {$or: []},
+        {$or: []},
+        {$or: []}
+    ];
+
+    category = category.split(",")
+    size = size.split(",")
+    color = color.split(",")
+    pattern = pattern.split(",")
+
+    category.forEach((val, index) => {
+        if(val !== 'null') {
+            obj[0].$or.push({"category": val})
+        }else {
+            obj[0].$or.push({"category": { $regex: /./}})
+        }
+    })
+    size.forEach((val, index) => {
+        if(val !== 'null') {
+            obj[1].$or.push({"size": val})
+        }else {
+            obj[1].$or.push({"size": { $regex: /./}})
+        }
+    })
+    pattern.forEach((val, index) => {
+        if(val !== 'null') {
+            obj[2].$or.push({"pattern": val})
+        }else {
+            obj[2].$or.push({"pattern": { $regex: /./}})
+        }
+    })
+    color.forEach((val, index) => {
+        if(val !== 'null') {
+            obj[3].$or.push({"color": val})
+        }else {
+            obj[3].$or.push({"color": { $regex: /./}})
+        }
+    })
+    productModel.find({$and: obj}).exec().then(product => {
         res.status(200).json(product);
     })
 });
