@@ -45,10 +45,10 @@ router.get('/filters', function(req, res, next) {
     var response = {}
     var size, pattern, color, category;
 
-    (req.query.category === undefined) ? category = { $regex: /./} : category = req.query.category;
-    (req.query.size === undefined) ? size = { $regex: /./} : size = req.query.size;
-    (req.query.color === undefined) ? color = { $regex: /./} : color = req.query.color;
-    (req.query.pattern === undefined) ? pattern = { $regex: /./} : pattern = req.query.pattern;
+    (req.query.category === undefined) ? category = { $regex: /./} : category = req.body.category;
+    (req.query.size === undefined) ? size = { $regex: /./} : size = req.body.size;
+    (req.query.color === undefined) ? color = { $regex: /./} : color = req.body.color;
+    (req.query.pattern === undefined) ? pattern = { $regex: /./} : pattern = req.body.pattern;
     productModel.find({"size": size, "color": color, "pattern": pattern, "category": category}).exec().then(product => {
         res.status(200).json(product);
     })

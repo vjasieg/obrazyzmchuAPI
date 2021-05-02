@@ -21,6 +21,11 @@ router.post('', (req, res, next) => {
         next()
     }
 
+    if(!(req.body.secret === process.env.PASSWORD)) {
+        res.status(401).json({"result": "unauthorized"})
+        return next()
+    }
+
     const order = new orderModel({
         productID: req.body.productID,
         name: req.body.name,
