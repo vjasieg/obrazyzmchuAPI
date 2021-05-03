@@ -2,17 +2,6 @@ var express = require('express');
 var router = express.Router();
 var weekModel = require("../../../../models/weeks");
 
-function calculate(week, hours) {
-    lastDay = 0;
-    week.forEach((val, index) => {
-        if((val + lastDay) - hours >= 0) {
-            return index + 1
-        }else {
-            lastDay += val
-        }
-    })
-}
-
 router.post('', (req, res, next) => {
 
     if(!(req.body.secret === process.env.PASSWORD)) {
@@ -27,6 +16,7 @@ router.post('', (req, res, next) => {
     });
 
     week.save();
+    res.status(200).json({"result": "dodano tydzien!"})
 })
 
 module.exports = router;
