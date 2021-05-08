@@ -1,7 +1,1 @@
-{
-  "filters": {
-    "size": ["mały", "średni", "duży"],
-    "color": ["biały", "czarny", "drewniany"],
-    "pattern": ["roślinny", "zwierzęcy", "inny"]
-  }
-}
+{"filters":{"size":["mały","średni","duży"],"color":["biały","czarny","drewniany"],"pattern":["roślinny","zwierzęcy","inny"]}}

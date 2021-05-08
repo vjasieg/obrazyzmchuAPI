@@ -34,11 +34,21 @@ router.post('', (req, res, next) => {
 
   var filter = filters.filters;
 
-  if(!(filter.size.includes(req.body.size)) || !(filter.color.includes(req.body.color)) || !(filter.pattern.includes(req.body.pattern))) {
-    res.status(400).json({"result": "sprawdz poprawnosc filtrów" + " (dostepne: " + filter.size + ", " + filter.color + ", " + filter.pattern + ")"})
-    return next()
+  if(!(filter.size.includes(req.body.size))) {
+    var obj = filters
+    obj.filters.size.push(req.body.size)
+    fs.writeFile('./util/json/filters.json', JSON.stringify(obj), err => {});
   }
-
+  if(!(filter.color.includes(req.body.color))) {
+    var obj = filters
+    obj.filters.color.push(req.body.color)
+    fs.writeFile('./util/json/filters.json', JSON.stringify(obj), err => {});
+  }
+  if(!(filter.pattern.includes(req.body.pattern))) {
+    var obj = filters
+    obj.filters.pattern.push(req.body.pattern)
+    fs.writeFile('./util/json/filters.json', JSON.stringify(obj), err => {});
+  }
 
   if (!req.files || Object.keys(req.files).length === 0) {
     res.status(400).json({"result": "brak pliku"});
