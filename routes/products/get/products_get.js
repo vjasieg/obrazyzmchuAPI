@@ -24,14 +24,7 @@ router.get('/sort/:limit', function(req, res, next) {
 
 router.get('/id/:id', function(req, res, next) {
     productModel.findById({"_id": req.params.id}).exec().then(product => {
-        res.status(200).json({
-            "title": product.title,
-            "desc": product.desc,
-            "price": product.price,
-            "time": product.time,
-            "views": product.views,
-            "pics": product.pics
-        });
+        res.status(200).json(product);
     }).catch(err => {
         if(err) {
             res.status(500).json({
