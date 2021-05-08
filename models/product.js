@@ -10,6 +10,7 @@ const productSchema = mongoose.Schema({
     pics: {type: Array, required: true},
     size: {type: String, required: true},
     color: {type: String, required: true},
+    colorhex: {type: String, required: true},
     pattern: {type: String, required: true},
     family: {type: String, required: true}
 });
