@@ -25,6 +25,8 @@ var weekPostRouter = require('./routes/calendar/week/post/week_post');
 var weekGetRouter = require('./routes/calendar/week/get/week_get');
 var calendarCalculateRouter = require('./routes/calendar/calculate/calculate');
 
+var familyGetRouter = require('./routes/products/families/get/family_get');
+
 var cors = require("cors");
 var app = express();
 
@@ -62,5 +64,6 @@ app.use('/filters/get', filtersRouter);
 app.use('/calendar/weeks/post', weekPostRouter);
 app.use('/calendar/weeks/get', weekGetRouter);
 app.use('/calendar/calculate', calendarCalculateRouter);
+app.use('/products/family/get', familyGetRouter);
 
 module.exports = app;
