@@ -8,9 +8,9 @@ const productSchema = mongoose.Schema({
     time: {type: Number, required: true},
     views: {type: Number, default: 0},
     pics: {type: Array, required: true},
-    size: {type: String, required: true},
-    color: {type: String, required: true},
-    pattern: {type: String, required: true},
+    Rozmiar: {type: String, required: true},
+    Kolor: {type: String, required: true},
+    Wzór: {type: String, required: true},
 });
 
 module.exports = mongoose.model('Product', productSchema);
