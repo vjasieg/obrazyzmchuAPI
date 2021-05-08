@@ -1,11 +1,8 @@
 const mongoose = require('mongoose');
-const timeZone = require('mongoose-timezone');
 
-const weekSchema = mongoose.Schema({
-    start: {type: Date, required: true},
-    end: {type: Date, required: true},
-    days: {type: String, required: true}
+const productFamilySchema = mongoose.Schema({
+    familyname: {type: String, required: true},
+    products: {type: Array}
 });
 
-weekSchema.plugin(timeZone);
-module.exports = mongoose.model('Weeks', weekSchema);
+module.exports = mongoose.model('ProductFamily', productFamilySchema);
