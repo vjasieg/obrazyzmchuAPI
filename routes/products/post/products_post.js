@@ -73,6 +73,7 @@ router.post('', (req, res, next) => {
         time: req.body.time,
         size: req.body.size,
         color: req.body.color,
+        colorhex: req.body.colorhex,
         pattern: req.body.pattern,
         pics: "/files/" + id + ".png",
         family: req.body.family
