@@ -54,6 +54,11 @@ router.post('', (req, res, next) => {
     res.status(400).json({"result": "brak pliku"});
     return next()
   }
+  if(!(filter.family.includes(req.body.family))) {
+    var obj = filters
+    obj.filters.family.push(req.body.family)
+    fs.writeFile('./util/json/filters.json', JSON.stringify(obj), err => {});
+  }
 
   var product;
 
@@ -69,7 +74,8 @@ router.post('', (req, res, next) => {
         size: req.body.size,
         color: req.body.color,
         pattern: req.body.pattern,
-        pics: "/files/" + id + ".png"
+        pics: "/files/" + id + ".png",
+        family: req.body.family
     });
     upload(file, product, 0, id)
   }else {

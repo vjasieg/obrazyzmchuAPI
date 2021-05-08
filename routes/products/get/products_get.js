@@ -42,13 +42,15 @@ router.get('/id/:id', function(req, res, next) {
 });
 
 router.get('/filters', function(req, res, next) {
-    var size, pattern, color, category;
+    var size, pattern, color, category, family;
     (req.query.category === undefined) ? category = 'null' : category = req.query.category;
     (req.query.size === undefined) ? size = 'null' : size = req.query.size;
     (req.query.color === undefined) ? color = 'null' : color = req.query.color;
     (req.query.pattern === undefined) ? pattern = 'null' : pattern = req.query.pattern;
+    (req.query.family === undefined) ? family = 'null' : family = req.query.family;
 
     var obj = [
+        {$or: []},
         {$or: []},
         {$or: []},
         {$or: []},
@@ -59,6 +61,7 @@ router.get('/filters', function(req, res, next) {
     size = size.split(",")
     color = color.split(",")
     pattern = pattern.split(",")
+    family = family.split(",")
 
     category.forEach((val, index) => {
         if(val !== 'null') {
@@ -86,6 +89,13 @@ router.get('/filters', function(req, res, next) {
             obj[3].$or.push({"color": val})
         }else {
             obj[3].$or.push({"color": { $regex: /./}})
+        }
+    })
+    family.forEach((val, index) => {
+        if(val !== 'null') {
+            obj[4].$or.push({"family": val})
+        }else {
+            obj[4].$or.push({"family": { $regex: /./}})
         }
     })
     productModel.find({$and: obj}).exec().then(product => {

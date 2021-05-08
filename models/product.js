@@ -11,6 +11,7 @@ const productSchema = mongoose.Schema({
     size: {type: String, required: true},
     color: {type: String, required: true},
     pattern: {type: String, required: true},
+    family: {type: String, required: true}
 });
 
 module.exports = mongoose.model('Product', productSchema);
