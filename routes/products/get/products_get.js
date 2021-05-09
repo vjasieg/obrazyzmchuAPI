@@ -37,9 +37,9 @@ router.get('/id/:id', function(req, res, next) {
 router.get('/filters', function(req, res, next) {
     var size, pattern, color, category, family;
     (req.query.category === undefined) ? category = 'null' : category = req.query.category;
-    (req.query.size === undefined) ? size = 'null' : size = req.query.size;
-    (req.query.color === undefined) ? color = 'null' : color = req.query.color;
-    (req.query.pattern === undefined) ? pattern = 'null' : pattern = req.query.pattern;
+    (req.query.Rozmiar === undefined) ? size = 'null' : size = req.query.Rozmiar;
+    (req.query.Kolor === undefined) ? color = 'null' : color = req.query.Kolor;
+    (req.query.Wzór === undefined) ? pattern = 'null' : pattern = req.query.Wzór;
     (req.query.family === undefined) ? family = 'null' : family = req.query.family;
 
     var obj = [
