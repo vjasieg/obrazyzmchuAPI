@@ -61,7 +61,6 @@ router.post('', (req, res, next) => {
   }
 
   var product;
-
   if(req.files.file.length === undefined) {
     var id = mongoose.Types.ObjectId();
     file = req.files.file
@@ -78,7 +77,9 @@ router.post('', (req, res, next) => {
         pics: "/files/" + id + ".png",
         family: req.body.family
     });
+    console.log('c')
     upload(file, product, 0, id)
+    console.log('d')
   }else {
     var filelist = [];
     var objectIds = [];
@@ -109,7 +110,6 @@ router.post('', (req, res, next) => {
     })
   }
 
-
   product.save().then(result => {
     return res.status(200).json({
       "result": "Dodano produkt.",
@@ -117,7 +117,7 @@ router.post('', (req, res, next) => {
       "pic_id": id || objectIds
     });
   }).catch(err => {
-    //res.status(500).send(err);
+    res.status(500).send(err);
   })
 });
 
