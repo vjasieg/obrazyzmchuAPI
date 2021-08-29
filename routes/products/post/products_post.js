@@ -54,6 +54,7 @@ router.post('', (req, res, next) => {
     res.status(400).json({"result": "brak pliku"});
     return next()
   }
+
   if(!(filter.family.includes(req.body.family))) {
     var obj = filters
     obj.filters.family.push(req.body.family)
@@ -88,7 +89,6 @@ router.post('', (req, res, next) => {
       objectIds.push(mongoose.Types.ObjectId());
     })
 
-
     req.files.file.forEach((file, index) => {
       filelist.push("/files/" + objectIds[index] + ".png")
     })
@@ -102,7 +102,9 @@ router.post('', (req, res, next) => {
       size: req.body.size,
       color: req.body.color,
       pattern: req.body.pattern,
-      pics: filelist
+      pics: filelist,
+      colorhex: req.body.colorhex,
+      family: req.body.family
     });
 
     req.files.file.forEach((file, index) => {
@@ -120,7 +122,5 @@ router.post('', (req, res, next) => {
     res.status(500).send(err);
   })
 });
-
-
 
 module.exports = router;
