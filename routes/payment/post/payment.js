@@ -4,15 +4,13 @@ const stripe = require('stripe')('sk_test_51JWQg9F28K26iHLntlObJmH3SgrAmbqVThbEe
 const productModel = require('../../../models/product')
 
 router.post('/process', async (req, res, next) => {
-    var products = JSON.parse(req.body.products);
     var price = 0;
-
-   for (const id of products) {
-        await productModel.find({_id: id}).exec().then(product => {
-            console.log(product[0].price)
-            price += parseFloat(product[0].price);
+   for (const obj of req.body) {
+        await productModel.find({_id: obj._id}).exec().then(product => {
+            price += parseFloat(product[0].price) * obj.amount
         })
     }
+   console.log(price)
 
     const paymentIntent = await stripe.paymentIntents.create({
         amount: Math.round(price * 100),
