@@ -5,13 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const fileUpload = require('express-fileupload');
 const router = require('./routes/router')
-const DatabaseConnector = require("./middleware/DatabaseConnector")
+const dbConnector = require("./middleware/DatabaseConnector")
 
 var cors = require("cors");
 var app = express();
 
-//connecting to db
-app.use(DatabaseConnector.mongoConnect)
+app.use(dbConnector)
 app.use(logger('dev'));
 app.use(cors());
 app.use(express.json());
