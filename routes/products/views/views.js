@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const productModel = require("../../models/product");
+const productModel = require("../../../models/product");
 var limit = require('express-rate-limit');
 
 const rateLimit = limit({
