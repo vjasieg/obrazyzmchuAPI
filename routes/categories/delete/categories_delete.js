@@ -5,11 +5,6 @@ const categories = require("../../../util/json/categories.json");
 
 router.delete('/remove', (req, res, next) => {
 
-    if(!(req.body.secret === process.env.PASSWORD)) {
-        res.status(401).json({"result": "unauthorized"})
-        return next()
-    }
-
     cat = categories
     cat.categories.forEach((val, index) => {
         if (val === req.body.category) {

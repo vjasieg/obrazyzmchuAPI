@@ -5,10 +5,6 @@ const productPicModel = require("../../../models/productpic");
 const fs = require("fs")
 
 router.delete('', (req, res, next) => {
-    if(!(req.body.secret === process.env.PASSWORD)) {
-        res.status(401).json({"result": "unauthorized"});
-        return next()
-    }
     productModel.findById({"_id": req.body.productID}).exec().then(product => {
         pics = product.pics
         pics.forEach((val, index) => {

@@ -35,19 +35,24 @@ router.get('/id/:id', function(req, res, next) {
 });
 
 router.get('/filters', function(req, res, next) {
-    var size, pattern, color, category, family;
+    var size, pattern, color, category, family, regex;
     (req.query.category === undefined) ? category = 'null' : category = req.query.category;
     (req.query.Rozmiar === undefined) ? size = 'null' : size = req.query.Rozmiar;
     (req.query.Kolor === undefined) ? color = 'null' : color = req.query.Kolor;
     (req.query.Wzór === undefined) ? pattern = 'null' : pattern = req.query.Wzór;
     (req.query.family === undefined) ? family = 'null' : family = req.query.family;
-
+    (req.query.search === undefined) ? regex = '/./' : regex = new RegExp('/^' + req.query.search +  '.*$/');
     var obj = [
         {$or: []},
         {$or: []},
         {$or: []},
         {$or: []},
-        {$or: []}
+        {$or: []},
+        {
+            $match: {
+                title: regex
+            }
+        }
     ];
 
     category = category.split(",")
@@ -91,6 +96,7 @@ router.get('/filters', function(req, res, next) {
             obj[4].$or.push({"family": { $regex: /./}})
         }
     })
+    console.log(obj)
     productModel.find({$and: obj}).exec().then(product => {
         res.status(200).json(product);
     })

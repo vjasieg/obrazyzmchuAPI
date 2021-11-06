@@ -2,8 +2,15 @@ var express = require('express');
 var router = express.Router();
 const stripe = require('stripe')('sk_test_51JWQg9F28K26iHLntlObJmH3SgrAmbqVThbEeF3sX01zF0HpJyIDjDZnkYEhRmOZPCit7R2uFxQGWKx1ZsBua1v700UCkKN6Kb');
 const productModel = require('../../../models/product')
+var limit = require('express-rate-limit');
 
-router.post('/process', async (req, res, next) => {
+const rateLimit = limit({
+    windowMs: 30 * 1000,
+    max: 1,
+    message: "{\"result\":\"try again in 30 seconds!\"}"
+});
+
+router.post('', rateLimit, async (req, res, next) => {
     var price = 0;
    for (const obj of req.body) {
         await productModel.find({_id: obj._id}).exec().then(product => {

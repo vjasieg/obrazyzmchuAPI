@@ -22,10 +22,6 @@ function upload(file, product, order, id) {
 }
 
 router.post('', (req, res, next) => {
-  if(!(req.body.secret === process.env.PASSWORD)) {
-    res.status(401).json({"result": "unauthorized"});
-    return next()
-  }
 
   if(!categories.categories.includes(req.body.category)) {
     res.status(400).json({"result": "nie ma takiej kategorii" + "(dostepne: " + categories.categories + ")"})

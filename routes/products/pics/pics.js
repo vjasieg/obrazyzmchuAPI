@@ -13,10 +13,6 @@ router.get('/get/:id/:sort', (req, res, next) => {
 });
 
 router.post('/order/change/:id', (req, res, next) => {
-    if(!(req.body.secret === process.env.PASSWORD)) {
-        res.status(401).json({"result": "unauthorized"})
-        return next()
-    }
     console.log(req.params.id)
     productPicModel.findById({"_id": req.params.id}).exec().then(pic => {
         pic.order = req.body.order;
